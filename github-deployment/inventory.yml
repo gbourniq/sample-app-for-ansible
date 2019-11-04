@@ -1,0 +1,9 @@
+# inventory.yml with password placeholder
+webservers:
+  hosts:
+      server1:
+        ansible_connection: ssh
+        ansible_host: "ec2-35-181-54-69.eu-west-3.compute.amazonaws.com"
+        ansible_user: ubuntu
+        ansible_ssh_private_key_file: ~/.ssh/my_aws_key.pem
+        ansible_become: true

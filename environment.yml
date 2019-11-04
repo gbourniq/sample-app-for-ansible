@@ -1,0 +1,10 @@
+name: github-deployment
+dependencies:
+  - python=3.7                # PSF
+  - pip                       # MIT
+  - pip:
+      # - black             # MIT
+      # - isort==4.3.4      # MIT
+      # - pytest==4.0       # MIT
+      # - pytest-cov        # MIT
+      - ansible
