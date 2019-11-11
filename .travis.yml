@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+script:
+  - docker build -t gbournique/sample_app_for_ansible .
+  - docker images gbournique/sample_app_for_ansible
+
+before_deploy:
+  - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+
+deploy:
+  provider: script
+  script: docker push gbournique/travis_test:latest
+  on:
+    branch: master
+
+after_success:
+  - echo Deploying to AWS EC2 instance...
+  - bash github-deployment/start_deployment.sh

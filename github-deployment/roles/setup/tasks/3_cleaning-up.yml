@@ -1,0 +1,20 @@
+# This playbook contains docker actions that will be run on "remote" host.
+
+- name: Stop running containers
+  shell: docker stop $(docker ps -a -q) 2>/dev/null
+  register: cmdln
+  failed_when: "cmdln.rc == 2"
+
+- name: Remove all stopped containers
+  shell: docker rm $(docker ps -a -q) 2>/dev/null
+  register: cmdln
+  failed_when: "cmdln.rc == 2"
+
+- name: Docker prune all
+  shell: docker system prune -a -f
+
+- name: Deleting repo folder if exists
+  become: yes
+  file:
+    path: "{{ repo_folder }}"
+    state: absent

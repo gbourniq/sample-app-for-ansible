@@ -1,0 +1,31 @@
+---
+# eigen_repo_path: "{{ playbook_dir }}/../../eigen"
+# docker_compose_version: "1.24.1"
+# eigen_image: "eigen_bespoke"
+# eigen_image_tag: "latest"
+# eigen_build_type: "dev"
+# compose_file: "docker-compose.yml:docker-compose.ocr.yml"
+# docker_tarball_path: "https://packages.eigen.tech/docker-compose/{{ eigen_build_type | replace('_', '-') }}/docker-compose_{{ eigen_image_tag | replace('_', '-') }}/docker.tar.gz"
+# feature_toggle_define_label_set: "False"
+# feature_toggle_error_details: "False"
+# ocr_strategy: "OcrStrategy.ALWAYS"
+
+# Variables listed here are applicable to "setup" role
+
+ansible_python_interpreter: /usr/bin/python3
+
+remote_user: ubuntu
+docker_group: docker
+docker_compose_version: 1.24.1
+
+repo_folder: /home/ubuntu/docker_deployment
+github_username: gbourniq
+repo_name: sample_app_for_ansible
+
+github_pwd: !vault |
+            $ANSIBLE_VAULT;1.2;AES256;user
+            38303838313263323335336333386334323535393639376165356566356164626132386431313836
+            3961363030646162323137313564656431666665366530660a363934306538386537376466396564
+            39333134396337336564653234616230633863326362393365653035316364366539396361336365
+            3435363830393133650a666262363264343965636664353331363831313664353365613066353166
+            3066

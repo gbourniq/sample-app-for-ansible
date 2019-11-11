@@ -1,4 +1,4 @@
-name: github-deployment
+name: devops-test
 dependencies:
   - python=3.7                # PSF
   - pip                       # MIT
