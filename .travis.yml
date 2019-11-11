@@ -1,17 +1,26 @@
 sudo: required
 services:
-  - docker
+  - docker-compose
+
+# env:
+#   - DOCKER_COMPOSE_VERSION=1.4.2
+
+# before_install:
+#   - sudo rm /usr/local/bin/docker-compose
+#   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+#   - chmod +x docker-compose
+#   - sudo mv docker-compose /usr/local/bin
 
 script:
-  - docker build -t gbournique/sample_app_for_ansible .
-  - docker images gbournique/sample_app_for_ansible
+  - docker-compose build
+  # - docker images gbournique/sample_app_for_ansible
 
 before_deploy:
   - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
 
 deploy:
   provider: script
-  script: docker push gbournique/travis_test:latest
+  script: docker-compose push gbournique/travis_test:latest
   on:
     branch: master
 
