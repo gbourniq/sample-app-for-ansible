@@ -25,4 +25,5 @@ script:
 
 after_success:
   - echo Deploying to AWS EC2 instance...
-  - bash github-deployment/start_deployment.sh
+  # - bash github-deployment/start_deployment.sh
+  - ansible-playbook -i github-deployment/inventory.yml --vault-id github-deployment/roles/setup/vars/ansible-vault-pw github-deployment/site.yml
