@@ -18,6 +18,10 @@ remote_user: ubuntu
 docker_group: docker
 docker_compose_version: 1.24.1
 
+# image_registry:
+# image_name:
+# image_tag:
+
 repo_folder: /home/ubuntu/docker_deployment
 github_user: gbourniq
 repo_name: sample_app_for_ansible

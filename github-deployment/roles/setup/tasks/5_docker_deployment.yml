@@ -1,11 +1,4 @@
-# - name: docker-compose down
-#   register: result
-#   retries: 2
-#   delay: 5
-#   until: result is not failed
-#   docker_compose:
-#     project_src: "{{ repo_folder }}"
-#     state: absent
+# This playbook contains docker actions that will be run on "remote" host.
 
 - name: docker-compose up
   docker_compose:

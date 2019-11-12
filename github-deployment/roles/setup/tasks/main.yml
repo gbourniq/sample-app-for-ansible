@@ -31,6 +31,11 @@
 - name: Test web app running
   include_tasks: 6_ping_webapp.yml
 
+- name: Test web app running
+  include_tasks: 7_push_to_dockerhub.yml
+  tags:
+    - dockerhub_push
+
 # sudo apt-get autoclean
 - name: Remove useless apt packages from the cache
   apt:

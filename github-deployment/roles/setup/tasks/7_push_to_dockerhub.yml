@@ -1,0 +1,7 @@
+# This playbook contains docker actions that will be run on "remote" host.
+
+- name: Push back-end app image to Dockerhub
+  shell: docker push gbournique/ansible-app:latest
+
+- name: Push front-end app image to Dockerhub
+  shell: docker push {{ dockerhub_user }}/ansible-client:latest

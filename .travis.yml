@@ -6,8 +6,8 @@ services:
 # language: python
 # python: "3.6"
 
-env:
-  - DOCKER_COMPOSE_VERSION=1.4.2
+# env:
+#   - DOCKER_COMPOSE_VERSION=1.4.2
 
 branches:
   only:
@@ -28,17 +28,17 @@ install:
   # - sudo apt-get upgrade -y
   - sudo pip install ansible
   - sudo pip install ansible-lint
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
+  # - sudo rm /usr/local/bin/docker-compose
+  # - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  # - chmod +x docker-compose
+  # - sudo mv docker-compose /usr/local/bin
 
 script:
   - docker-compose build
   # Check the role/playbook's syntax.
   - ansible-playbook -i github-deployment/inventory.yml github-deployment/site.yml --syntax-check
   # Run ansible playbook
-  - ansible-playbook -i github-deployment/inventory.yml --vault-id github-deployment/roles/setup/vars/ansible-vault-pw github-deployment/site.yml -vv
+  - ansible-playbook -i github-deployment/inventory.yml --vault-id github-deployment/roles/setup/vars/ansible-vault-pw github-deployment/site.yml -vvv --skip-tags dockerhub_push
 
 after_success:
   - Successfully deployed app to AWS EC2 instance with Ansible.
