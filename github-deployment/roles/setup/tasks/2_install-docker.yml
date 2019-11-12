@@ -73,6 +73,11 @@
   tags:
     - docker
 
+- name: Log into DockerHub
+  docker_login:
+    username: "{{ dockerhub_user }}"
+    password: "{{ dockerhub_password }}"
+    
 # curl -L https://github.com/docker/compose/releases/download/1.24.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 # chmod +x /usr/local/bin/docker-compose
 - name: Fetch docker-compose

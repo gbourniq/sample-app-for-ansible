@@ -38,7 +38,7 @@ script:
   # Check the role/playbook's syntax.
   - ansible-playbook -i github-deployment/inventory.yml github-deployment/site.yml --syntax-check
   # Run ansible playbook
-  - ansible-playbook -i github-deployment/inventory.yml --vault-id github-deployment/roles/setup/vars/ansible-vault-pw github-deployment/site.yml
+  - ansible-playbook -i github-deployment/inventory.yml --vault-id github-deployment/roles/setup/vars/ansible-vault-pw github-deployment/site.yml -vv
 
 after_success:
   - Successfully deployed app to AWS EC2 instance with Ansible.
