@@ -18,6 +18,7 @@ before_install:
   - sudo apt install python3-pip -y
   - alias pip=pip3
   - sudo apt-get install sshpass
+  - echo ${ANSIBLE_VAULT_PASSPHRASE} > /github-deployment/roles/setup/vars/ansible-vault-pw
 
 
 
@@ -33,20 +34,24 @@ install:
   - sudo mv docker-compose /usr/local/bin
 
 script:
-  # - docker-compose build
+  - docker-compose build
   # Check the role/playbook's syntax.
   - ansible-playbook -i github-deployment/inventory.yml github-deployment/site.yml --syntax-check
-  - ansible-playbook -i github-deployment/inventory.yml --vault-id github-deployment/roles/setup/vars/ansible-vault-pw github-deployment/site.yml -vvvv
+  # Run ansible playbook
+  - ansible-playbook -i github-deployment/inventory.yml --vault-id github-deployment/roles/setup/vars/ansible-vault-pw github-deployment/site.yml
 
-# # before_deploy:
-# #   - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+after_success:
+  - Successfully deployed app to AWS EC2 instance with Ansible.
+  - Pushing images to Dockerhub...
 
-# # deploy:
-# #   provider: script
-# #   script: docker-compose push ${DOCKER_USERNAME}/${DOCKERHUB_IMAGE}
-# #   on:
-# #     branch: master
+before_deploy:
+  - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
 
-# after_success:
-#   - echo Deploying to AWS EC2 instance...
-#   # - bash github-deployment/start_deployment.sh
+deploy:
+  provider: script
+  script: docker-compose push 
+  # ${DOCKER_USERNAME}/${DOCKERHUB_IMAGE}
+  on:
+    branch: master
+
+
