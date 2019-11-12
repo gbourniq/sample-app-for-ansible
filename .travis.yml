@@ -6,8 +6,8 @@ services:
 # language: python
 # python: "3.6"
 
-# env:
-  # - DOCKER_COMPOSE_VERSION=1.4.2
+env:
+  - DOCKER_COMPOSE_VERSION=1.4.2
 
 branches:
   only:
@@ -33,7 +33,7 @@ install:
 script:
   # - docker-compose build
   # Check the role/playbook's syntax.
-  - ansible-playbook -i github-deployment/inventory.yml --syntax-check
+  - ansible-playbook -i github-deployment/inventory.yml github-deployment/site.yml --syntax-check
   - ansible-playbook -i github-deployment/inventory.yml --vault-id github-deployment/roles/setup/vars/ansible-vault-pw github-deployment/site.yml -vvvv
 
 # # before_deploy:
