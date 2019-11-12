@@ -17,6 +17,8 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt install python3-pip -y
   - alias pip=pip3
+  - sudo apt-get install sshpass
+
 
 
 install:
