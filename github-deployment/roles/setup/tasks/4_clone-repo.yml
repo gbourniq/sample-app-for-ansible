@@ -17,7 +17,7 @@
 - name: Clone github repo
   become: no
   git:
-    repo: https://{{ github_username }}:{{ github_pwd }}@github.com/{{ github_username }}/{{ repo_name }}.git
+    repo: https://{{ github_user }}:{{ github_pwd }}@github.com/{{ github_user }}/{{ repo_name }}.git
     version: master
     dest: "{{ repo_folder }}"
     update: yes

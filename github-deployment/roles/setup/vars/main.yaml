@@ -19,10 +19,10 @@ docker_group: docker
 docker_compose_version: 1.24.1
 
 repo_folder: /home/ubuntu/docker_deployment
-github_username: gbourniq
+github_user: gbourniq
 repo_name: sample_app_for_ansible
 
-dockerhub_user: gbourniq
+dockerhub_user: gbournique
 dockerhub_password: !vault |
           $ANSIBLE_VAULT;1.2;AES256;user
           33393434353132616431386365613834336139306164353763653666656638386261663037356434
