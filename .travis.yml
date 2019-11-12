@@ -23,8 +23,8 @@ install:
   # Install Ansible.
   - sudo apt-get update -qq
   # - sudo apt-get upgrade -y
-  - pip install ansible
-  - pip install ansible-lint
+  - sudo pip install ansible
+  - sudo pip install ansible-lint
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
