@@ -3,9 +3,8 @@ sudo: required
 services:
   - docker
 
-env:
+# env:
   # - DOCKER_COMPOSE_VERSION=1.4.2
-  - ANSIBLE_VERSION=latest
 
 branches:
   only:
@@ -20,8 +19,8 @@ branches:
 
 install:
   # Install Ansible.
-  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
-  - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible-lint; fi
+  - pip install ansible
+  - pip install ansible-lint
 
 script:
   - docker-compose build
