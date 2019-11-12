@@ -3,51 +3,31 @@ sudo: required
 services:
   - docker
 
-# language: python
-# python: "3.6"
-
-# env:
-#   - DOCKER_COMPOSE_VERSION=1.4.2
-
 branches:
   only:
     - master
 
 before_install:
   - sudo apt-get update -qq
-  - sudo apt install python3-pip -y
-  - alias pip=pip3
-  - sudo apt-get install sshpass
+  - sudo apt install python3-pip -y && alias pip=pip3
+  - sudo apt-get install sshpass # sshpass is needed for Travis instance to connect to EC2 instance
   - echo ${ANSIBLE_VAULT_PASSPHRASE} > github-deployment/roles/setup/vars/ansible-vault-pw
 
-
-
 install:
-  # Install Ansible.
+  # Install Ansible
   - sudo apt-get update -qq
-  # - sudo apt-get upgrade -y
   - sudo pip install ansible
   - sudo pip install ansible-lint
 
 script:
+  # Check docker-compose build runs successfully
   - docker-compose build
-  # Check the role/playbook's syntax.
+  # Check the role/playbook's syntax
   - ansible-playbook -i github-deployment/inventory.yml github-deployment/site.yml --syntax-check
   # Run ansible playbook
-  - ansible-playbook -i github-deployment/inventory.yml --vault-id github-deployment/roles/setup/vars/ansible-vault-pw github-deployment/site.yml -vv --skip-tags dockerhub_push
+  - ansible-playbook -i github-deployment/inventory.yml --vault-id github-deployment/roles/setup/vars/ansible-vault-pw github-deployment/site.yml -vv #--skip-tags dockerhub_push
 
 after_success:
-  - Successfully deployed app to AWS EC2 instance with Ansible.
-  - Pushing images to Dockerhub...
-
-before_deploy:
-  - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
-
-deploy:
-  provider: script
-  script: docker-compose push 
-  # ${DOCKER_USERNAME}/${DOCKERHUB_IMAGE}
-  on:
-    branch: master
+  - echo "Successfully deployed app to AWS EC2 instance with Ansible and pushed images to Dockerhub."
 
 

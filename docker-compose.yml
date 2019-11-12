@@ -3,7 +3,6 @@ services:
   app:
     container_name: myapp
     restart: always
-    image: gbournique/ansible-app:latest
     build: ./app
     ports:
       - "4000:4000"
@@ -12,7 +11,6 @@ services:
   client:
     container_name: myclient
     restart: always
-    image: gbournique/ansible-client:latest
     build: ./client
     ports:
       - "3000:3000"
