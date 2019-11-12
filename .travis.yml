@@ -3,6 +3,9 @@ sudo: required
 services:
   - docker
 
+# language: python
+# python: "3.6"
+
 # env:
   # - DOCKER_COMPOSE_VERSION=1.4.2
 
@@ -19,6 +22,10 @@ branches:
 
 install:
   # Install Ansible.
+  - sudo apt-get update
+  - sudo apt-get upgrade -y
+  - sudo apt install python3-pip -y
+  - alias pip=pip3
   - pip install ansible
   - pip install ansible-lint
 
