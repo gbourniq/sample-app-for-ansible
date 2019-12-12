@@ -11,15 +11,16 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt install python3-pip -y && alias pip=pip3
   - sudo apt-get install sshpass # sshpass is needed for Travis instance to connect to EC2 instance
-  - echo ${ANSIBLE_VAULT_PASSPHRASE} > github-deployment/roles/setup/vars/ansible-vault-pw
+  - echo ${ANSIBLE_VAULT_PASSPHRASE} > ec2-deployment/roles/setup/vars/ansible-vault-pw
 
 install:
-  # Install Ansible
+  # Install Ansible on Travis instance
   - sudo apt-get update -qq
   - sudo pip install ansible
   - sudo pip install ansible-lint
 
 script:
+  # run tests
   # Check docker-compose build runs successfully
   - docker-compose build
   # Check the role/playbook's syntax

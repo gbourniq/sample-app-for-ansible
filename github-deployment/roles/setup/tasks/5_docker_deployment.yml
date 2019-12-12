@@ -1,8 +1,0 @@
-# This playbook contains docker actions that will be run on "remote" host.
-
-- name: docker-compose up
-  docker_compose:
-    build: yes
-    project_src: "{{ repo_folder }}"
-    pull: yes
-    state: present
