@@ -1,0 +1,6 @@
+app/node_modules
+app/data
+app/npm-debug.log
+.env
+.settings
+
