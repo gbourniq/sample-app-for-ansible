@@ -56,7 +56,7 @@ services:
       # MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
     expose:
-      - "${DB_HTTP_PORT}"
+      - "${MONGO_HTTP_PORT}"
     volumes:
       - ../../app/data:/data/db
     ports:

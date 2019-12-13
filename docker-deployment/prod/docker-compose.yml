@@ -43,7 +43,7 @@ services:
     container_name: mymongo
     dns_search: .
     expose:
-      - "${DB_HTTP_PORT}"
+      - "${MONGO_HTTP_PORT}"
     volumes:
       - ../app/data:/data/db
     ports:
