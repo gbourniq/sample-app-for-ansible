@@ -8,3 +8,5 @@ dependencies:
       # - pytest==4.0       # MIT
       # - pytest-cov        # MIT
       - ansible
+      - awscli
+      - make

@@ -3,7 +3,7 @@ version: "3.5"
 services:
 
   app:
-    image: ${DOCKER_REGISTRY}/${ORG_NAME}/app:latest
+    image: ${DOCKER_REGISTRY}/${ORG_NAME}/${REPO_NAME_BASE}_app:latest
     dns_search: .
     container_name: myapp
     environment:
@@ -22,7 +22,7 @@ services:
       - mongo
 
   client:
-    image: ${DOCKER_REGISTRY}/${ORG_NAME}/client:latest
+    image: ${DOCKER_REGISTRY}/${ORG_NAME}/${REPO_NAME_BASE}_client:latest
     dns_search: .
     container_name: myclient
     environment:
@@ -39,13 +39,13 @@ services:
         - backend
 
   mongo:
-    image: ${DOCKER_REGISTRY}/${ORG_NAME}/mongo:latest
+    image: ${DOCKER_REGISTRY}/${ORG_NAME}/${REPO_NAME_BASE}_mongo:latest
     container_name: mymongo
     dns_search: .
     expose:
       - "${MONGO_HTTP_PORT}"
     volumes:
-      - ../app/data:/data/db
+      - ../../app/data:/data/db
     ports:
       - "${MONGO_HTTP_PORT}:${MONGO_HTTP_PORT}"
     healthcheck:
