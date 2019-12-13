@@ -26,7 +26,7 @@ DOCKER_LOGIN_EXPRESSION := eval $$(aws ecr get-login --registry-ids $(AWS_ACCOUN
 
 # Repo variables
 export ORG_NAME ?= gbournique
-REPO_NAME_BASE ?= myfullstackapp
+export REPO_NAME_BASE ?= myfullstackapp
 
 # Set shell
 SHELL=/bin/bash -e -o pipefail
