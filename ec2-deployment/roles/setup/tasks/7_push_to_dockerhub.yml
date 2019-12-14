@@ -1,6 +1,0 @@
-# This playbook contains docker actions that will be run on "remote" host.
-
-- name: run make tag-latest/login/publish/clean to push images to Dockerhub
-    shell: make tag-latest login publish clean
-    register: cmdln
-    failed_when: "cmdln.rc == 2"

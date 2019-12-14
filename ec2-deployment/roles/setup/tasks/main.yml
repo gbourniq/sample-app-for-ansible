@@ -23,7 +23,7 @@
   tags:
     - instance-setup
 
-- name: Clean up potential existing containers, images and folder
+- name: Import tasks for cleaning up potential existing containers, images and folder
   include_tasks: 3_cleaning-up.yml
   tags:
     - build
@@ -33,20 +33,25 @@
   tags:
     - build
 
-- name: Import Docker deployment tasks
-  include_tasks: 5_docker_deployment.yml
+- name: Import Docker deployment tasks for build environment
+  include_tasks: 5_build_deployment.yml
   tags:
     - build
 
-- name: Test web app running
-  include_tasks: 6_ping_webapp.yml
+- name: Import tasks to test web app is running
+  include_tasks: 6_acceptance_tests.yml
   tags:
     - build
 
-- name: Push images to Dockerhub
-  include_tasks: 7_push_to_dockerhub.yml
+- name: Import tasks to push images to Dockerhub
+  include_tasks: 7_publish_registry.yml
   tags:
     - dockerhub_push
+
+- name: Import Docker deployment tasks for prod environment
+  include_tasks: 5_build_deployment.yml
+  tags:
+    - prod
 
 # sudo apt-get autoclean
 - name: Remove useless apt packages from the cache

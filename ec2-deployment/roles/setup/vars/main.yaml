@@ -26,6 +26,9 @@ repo_folder: /home/ubuntu/docker_deployment
 github_user: gbourniq
 repo_name: sample_app_for_ansible
 
+DOCKER_REGISTRY: ${DOCKER_REGISTRY}
+ORG_NAME: ${ORG_NAME}
+
 dockerhub_user: gbournique
 dockerhub_password: !vault |
           $ANSIBLE_VAULT;1.2;AES256;user

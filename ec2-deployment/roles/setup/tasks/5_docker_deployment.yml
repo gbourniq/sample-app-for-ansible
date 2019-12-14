@@ -1,6 +1,0 @@
-# This playbook contains docker actions that will be run on "remote" host.
-
-- name: run make clean/test/build to test and build images
-  shell: cd {{ repo_folder }} && make clean test build
-  register: cmdln
-  failed_when: "cmdln.rc == 2"

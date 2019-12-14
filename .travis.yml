@@ -37,11 +37,11 @@ script:
   # Check docker-compose build runs successfully
   # - cd docker-deployment/build
   # - docker-compose build
-  # Check the role/playbook's syntax
+  # Ansible deployment
   - make ansible-checksyntax
-  # Run ansible playbook
-  - make ansible-deploy
-  - make ansible-setup-and-deploy
+  - make ansible-instance-setup
+  - make ansible-deploy-build
+  - make ansible-deploy-prod
 
 after_success:
   - echo "Successfully deployed app to AWS EC2 instance with Ansible and pushed images to Dockerhub."
