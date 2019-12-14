@@ -128,17 +128,17 @@ ansible-checksyntax:
 
 ansible-instance-setup:
 	${INFO} "Running ansible playbook for machine setup + build deployment"
-	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --skip-tags build prod
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --skip-tags=build,prod
 	${INFO} "Deployment complete"
 
 ansible-deploy-build:
 	${INFO} "Running ansible playbook for build deployment"
-	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --skip-tags instance-setup prod
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --skip-tags=instance-setup,prod
 	${INFO} "Deployment complete"
 
 ansible-deploy-prod:
 	${INFO} "Running ansible playbook for build deployment"
-	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --skip-tags instance-setup build
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --skip-tags=instance-setup,build
 	${INFO} "Deployment complete"
 
 
