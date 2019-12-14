@@ -123,17 +123,16 @@ publish:
 .PHONY: ansible-checksyntax ansible-deploy ansible-setup-and-deploy
 
 ansible-checksyntax:
-	${INFO} "Deploying environment $*..."
+	${INFO} "Checking ansible command syntax..."
 	@ ansible-playbook -i ec2-deployment/inventory.yml ec2-deployment/site.yml --syntax-check
-	${INFO} "Deploying environment $*..."
 
 ansible-deploy:
-	${INFO} "Deploying environment $*..."
+	${INFO} "Running ansible playbook for app deployment"
 	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --skip-tags instance-setup
 	${INFO} "Deployment complete"
 
 ansible-setup-and-deploy:
-	${INFO} "Deploying environment $*..."
+	${INFO} "Running ansible playbook for machine setup + app deployment"
 	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv 
 	${INFO} "Deployment complete"
 
