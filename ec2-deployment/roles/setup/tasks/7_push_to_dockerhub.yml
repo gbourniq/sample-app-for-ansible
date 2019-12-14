@@ -1,12 +1,6 @@
 # This playbook contains docker actions that will be run on "remote" host.
 
-- name: Push back-end app image to Dockerhub
-  shell: |
-    docker tag docker_deployment_app:latest {{ dockerhub_user }}/ansible-app:latest
-    docker push {{ dockerhub_user }}/ansible-app:latest
-
-
-- name: Push front-end app image to Dockerhub
-  shell: |
-    docker tag docker_deployment_client:latest {{ dockerhub_user }}/ansible-client:latest
-    docker push {{ dockerhub_user }}/ansible-client:latest
+- name: run make tag-latest/login/publish/clean to push images to Dockerhub
+    shell: make tag-latest login publish clean
+    register: cmdln
+    failed_when: "cmdln.rc == 2"

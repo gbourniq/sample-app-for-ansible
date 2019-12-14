@@ -1,13 +1,6 @@
 # This playbook contains docker actions that will be run on "remote" host.
 
-- name: docker-compose up
-  docker_compose:
-    build: yes
-    project_src: "{{ repo_folder }}"
-    pull: yes
-    state: present
-
-- name: run make all for deployment and push to Dockerhub
-  shell: make all
+- name: run make clean/test/build to test and build images
+  shell: make clean test build
   register: cmdln
   failed_when: "cmdln.rc == 2"
