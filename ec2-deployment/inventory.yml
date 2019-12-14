@@ -3,8 +3,8 @@ webservers:
   hosts:
       remote_server:
         ansible_connection: ssh
-        ansible_host: "ec2-15-188-54-132.eu-west-3.compute.amazonaws.com"
-        ansible_user: ubuntu
+        ansible_host: ${ANSIBLE_HOST}
+        ansible_user: ${ANSIBLE_USER}
         ansible_password: !vault |
                           $ANSIBLE_VAULT;1.2;AES256;user
                           66623266666131353634666433336663663264663365363266656131336562376534643532633737

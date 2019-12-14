@@ -8,6 +8,7 @@ branches:
     - master
 
 before_install:
+  - source .env
   - sudo apt-get update -qq
   - sudo apt install python3-pip -y && alias pip=pip3
   - sudo apt-get install sshpass # sshpass is needed for Travis instance to connect to EC2 instance
@@ -22,11 +23,12 @@ install:
 script:
   # run tests
   # Check docker-compose build runs successfully
-  - docker-compose build
+  # - cd docker-deployment/build
+  # - docker-compose build
   # Check the role/playbook's syntax
-  - ansible-playbook -i github-deployment/inventory.yml github-deployment/site.yml --syntax-check
+  - ansible-playbook -i ec2-deployment/inventory.yml ec2-deployment/site.yml --syntax-check
   # Run ansible playbook
-  - ansible-playbook -i github-deployment/inventory.yml --vault-id github-deployment/roles/setup/vars/ansible-vault-pw github-deployment/site.yml -vv #--skip-tags dockerhub_push
+  - ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv #--skip-tags dockerhub_push
 
 after_success:
   - echo "Successfully deployed app to AWS EC2 instance with Ansible and pushed images to Dockerhub."
