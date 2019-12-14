@@ -1,5 +1,10 @@
 # This playbook contains docker actions that will be run on "remote" host.
 
+- name: echo and ls
+  shell: echo "PWD $(pwd) LS $(ls -l)"
+  register: cmdln
+  failed_when: "cmdln.rc == 2"
+
 - name: Changing perm of "Makefile", adding "+x"
   file:
     dest: Makefile
