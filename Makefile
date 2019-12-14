@@ -11,7 +11,10 @@ export CLIENT_HTTP_ROOT ?=
 # export DB_USER ?= audit
 # export DB_PASSWORD ?= password
 
+# docker related commands
 .PHONY: version test build clean tag tag-latest login logout publish all
+# ansible related commands
+.PHONY: roles environment generate deploy delete
 
 # Prints version
 version:

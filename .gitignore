@@ -3,4 +3,7 @@ app/data/*
 app/npm-debug.log
 .env
 .settings
-
+ec2-deployment/roles/*
+!ec2-deployment/roles/requirements.yml
+*.retry
+*.pyc

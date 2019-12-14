@@ -13,16 +13,16 @@ PROD_COMPOSE_FILE := docker-deployment/prod/docker-compose.yml
 PROD_ARGS = -p $(DC_PROJECT_NAME) -f $(PROD_COMPOSE_FILE)
 
 # Dockerhub parameters
-# export DOCKER_REGISTRY := docker.io
-# DOCKER_USER := 
-# DOCKER_PASSWORD := 
+export DOCKER_REGISTRY := docker.io
+DOCKER_USER := gbournique
+DOCKER_PASSWORD := Vlan1478
 # DOCKER_REGISTRY_AUTH :=
-# DOCKER_LOGIN_EXPRESSION := docker login -u $$DOCKER_USER -p $$DOCKER_PASSWORD $(DOCKER_REGISTRY_AUTH)
+DOCKER_LOGIN_EXPRESSION := docker login -u $(DOCKER_USER) -p $(DOCKER_PASSWORD)
 
 # ECR parameters
-AWS_ACCOUNT_ID := 684585179542
-export DOCKER_REGISTRY := $(AWS_ACCOUNT_ID).dkr.ecr.eu-west-3.amazonaws.com
-DOCKER_LOGIN_EXPRESSION := eval $$(aws ecr get-login --registry-ids $(AWS_ACCOUNT_ID) --no-include-email)
+# AWS_ACCOUNT_ID := 684585179542
+# export DOCKER_REGISTRY := $(AWS_ACCOUNT_ID).dkr.ecr.eu-west-3.amazonaws.com
+# DOCKER_LOGIN_EXPRESSION := eval $$(aws ecr get-login --registry-ids $(AWS_ACCOUNT_ID) --no-include-email)
 
 # Repo variables
 export ORG_NAME ?= gbournique
