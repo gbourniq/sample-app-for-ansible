@@ -15,23 +15,35 @@
 
 - name: Import dependencies installation tasks
   include_tasks: 1_install-dependencies.yml
+  tags:
+    - instance-setup
 
 - name: Import Docker installation tasks
   include_tasks: 2_install-docker.yml
+  tags:
+    - instance-setup
 
 - name: Clean up potential existing containers, images and folder
   include_tasks: 3_cleaning-up.yml
+  tags:
+    - build
 
 - name: Import Github repo download tasks
   include_tasks: 4_clone-repo.yml
+  tags:
+    - build
 
 - name: Import Docker deployment tasks
   include_tasks: 5_docker_deployment.yml
+  tags:
+    - build
 
 - name: Test web app running
   include_tasks: 6_ping_webapp.yml
+  tags:
+    - build
 
-- name: Test web app running
+- name: Push images to Dockerhub
   include_tasks: 7_push_to_dockerhub.yml
   tags:
     - dockerhub_push
