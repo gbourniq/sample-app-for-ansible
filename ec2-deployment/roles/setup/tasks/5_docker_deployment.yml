@@ -1,6 +1,11 @@
 # This playbook contains docker actions that will be run on "remote" host.
 
+- name: Changing perm of "Makefile", adding "+x"
+  file:
+    dest: Makefile
+    mode: a+x
+
 - name: run make clean/test/build to test and build images
-  shell: cd .. && cd docker_deployment/ && make clean test build
+  shell: sudo cd .. && sudo cd docker_deployment/ && sudo   make clean test build
   register: cmdln
   failed_when: "cmdln.rc == 2"
