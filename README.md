@@ -4,7 +4,7 @@ to dos:
 - review ansible best practices with other project. 
 - add sensitive infos to gitignore
 - put more in makefile: ec2-deployment ansible stuff
-
+- use ansible tags to run installation commands or not > add env var INSTALL_DOCKER=true, and add ansible commands to makefile
 
 
 
