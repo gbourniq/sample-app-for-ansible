@@ -1,3 +1,16 @@
+# Travis to automate the following tasks:
+# Run tests
+# Run docker deploy commands with makefile?
+# Run Ansible script
+
+# Ansible script to automate the following tasks:
+# access ec2 instance
+# install dependencies, docker, conda, etc.
+# git clone repo
+# run tests
+# build images and run containers
+# push images to dockerhub
+
 ---
 sudo: required
 services:
@@ -21,14 +34,14 @@ install:
   - sudo pip install ansible-lint
 
 script:
-  # run tests
   # Check docker-compose build runs successfully
   # - cd docker-deployment/build
   # - docker-compose build
   # Check the role/playbook's syntax
-  - ansible-playbook -i ec2-deployment/inventory.yml ec2-deployment/site.yml --syntax-check
+  - make ansible-checksyntax
   # Run ansible playbook
-  - ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv #--skip-tags dockerhub_push
+  - make ansible-deploy
+  - make ansible-setup-and-deploy
 
 after_success:
   - echo "Successfully deployed app to AWS EC2 instance with Ansible and pushed images to Dockerhub."

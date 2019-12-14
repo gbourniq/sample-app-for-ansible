@@ -11,10 +11,8 @@ export CLIENT_HTTP_ROOT ?=
 # export DB_USER ?= audit
 # export DB_PASSWORD ?= password
 
-# docker related commands
+
 .PHONY: version test build clean tag tag-latest login logout publish all
-# ansible related commands
-.PHONY: roles environment generate deploy delete
 
 # Prints version
 version:
@@ -120,3 +118,46 @@ publish:
 # IMPORTANT - ensures arguments are not interpreted as make targets
 %:
 	@:
+
+# ansible related commands
+.PHONY: ansible-checksyntax ansible-deploy ansible-setup-and-deploy
+
+ansible-checksyntax:
+	${INFO} "Deploying environment $*..."
+	@ ansible-playbook -i ec2-deployment/inventory.yml ec2-deployment/site.yml --syntax-check
+	${INFO} "Deploying environment $*..."
+
+ansible-deploy:
+	${INFO} "Deploying environment $*..."
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --skip-tags instance-setup
+	${INFO} "Deployment complete"
+
+ansible-setup-and-deploy:
+	${INFO} "Deploying environment $*..."
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv 
+	${INFO} "Deployment complete"
+
+
+# roles:
+# 	${INFO} "Installing Ansible roles from roles/requirements.yml..."
+# 	@ ansible-galaxy install -r ec2-deployment/roles/requirements.yml --force
+# 	${INFO} "Installation complete"
+
+# environment/%:
+# 	@ mkdir -p group_vars/$*
+# 	@ touch group_vars/$*/vars.yml
+# 	@ echo >> inventory
+# 	@ echo '[$*]' >> inventory
+# 	@ echo '$* ansible_connection=local' >> inventory
+# 	${INFO} "Created environment $*"
+
+# generate/%:
+# 	${INFO} "Generating templates for $*..."
+# 	@ ansible-playbook site.yml -e 'Sts.Disabled=true' -e env=$* $(FLAGS) --tags generate
+# 	${INFO} "Generation complete"
+
+# delete/%:
+# 	${INFO} "Deleting environment $*..."
+# 	@ ansible-playbook site.yml -e env=$* -e 'Stack.Delete=true' $(FLAGS)
+# 	${INFO} "Delete complete"
+
