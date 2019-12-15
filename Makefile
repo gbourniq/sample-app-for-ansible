@@ -27,9 +27,9 @@ docker-app-version:
 	@ echo $(APP_VERSION)
 
 # Login to Docker registry
-docker-login:
+docker-login/%:
 	${INFO} "Logging in to Docker registry $(DOCKER_REGISTRY)..."
-	@ $(DOCKER_LOGIN_EXPRESSION)
+	@ docker login -u $(DOCKER_USER) -p $*
 	${SUCCESS} "Logged in to Docker registry $(DOCKER_REGISTRY)"
 
 # Logout of Docker registry

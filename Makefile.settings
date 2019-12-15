@@ -12,9 +12,6 @@ BUILD_ARGS = -p $(DC_PROJECT_NAME) -f $(BUILD_COMPOSE_FILE)
 PROD_COMPOSE_FILE := docker-deployment/prod/docker-compose.yml
 PROD_ARGS = -p $(DC_PROJECT_NAME) -f $(PROD_COMPOSE_FILE)
 
-# Dockerhub login
-DOCKER_LOGIN_EXPRESSION := docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
-
 # ECR parameters
 # AWS_ACCOUNT_ID := 684585179542
 # export DOCKER_REGISTRY := $(AWS_ACCOUNT_ID).dkr.ecr.eu-west-3.amazonaws.com
