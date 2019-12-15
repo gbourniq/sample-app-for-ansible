@@ -125,11 +125,12 @@ publish:
 ansible-checksyntax:
 	${INFO} "Checking ansible command syntax..."
 	@ ansible-playbook -i ec2-deployment/inventory.yml ec2-deployment/site.yml --syntax-check
+	${INFO} "Syntax complete..."
 
 ansible-instance-setup:
 	${INFO} "Running ansible playbook for machine setup + build deployment"
 	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --skip-tags=build,prod
-	${INFO} "Deployment complete"
+	${INFO} "Instance setup complete"
 
 ansible-deploy-build:
 	${INFO} "Running ansible playbook for build deployment"
@@ -138,8 +139,13 @@ ansible-deploy-build:
 
 ansible-deploy-prod:
 	${INFO} "Running ansible playbook for build deployment"
-	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --skip-tags=instance-setup,build
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --skip-tags=instance-setup,build,dockerhub_push
 	${INFO} "Deployment complete"
+
+ansible-instance-cleanup:
+	${INFO} "Delete repo folder, remove all running containers, and run docker system prune"
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --skip-tags=instance-setup,build,prod,dockerhub_push
+	${INFO} "Cleanup complete"
 
 
 # roles:

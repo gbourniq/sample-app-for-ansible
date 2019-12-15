@@ -1,0 +1,12 @@
+# This playbook contains docker actions that will be run on "remote" host.
+
+- name: Destroying build environment and Removing dangling images...
+  shell: cd {{ repo_folder }} && make clean
+  register: cmdln
+  failed_when: "cmdln.rc == 2"
+
+- name: Building images and starting services...
+  shell: cd {{ repo_folder }} && make build
+  register: cmdln
+  failed_when: "cmdln.rc == 2"
+  

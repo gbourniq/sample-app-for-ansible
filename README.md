@@ -14,3 +14,19 @@ make release > mongo:
 	# ${INFO} "Running db migrations..."
 	# @ docker-compose $(RELEASE_ARGS) run microtrader-audit java -cp /app/app.jar com.pluralsight.dockerproductionaws.admin.Migrate
 	 
+
+
+# - name: Tagging release images with tags latest...
+#     shell: "cd {{ repo_folder }} && make tag-latest"
+#     register: cmdln
+#     failed_when: "cmdln.rc == 2"
+
+# - name: Logging in to Docker registry {{ DOCKER_REGISTRY }}...
+#     shell: "cd {{ repo_folder }} && make login"
+#     register: cmdln
+#     failed_when: "cmdln.rc == 2"
+
+# - name: Publishing release images to {{ DOCKER_REGISTRY }}/{{ ORG_NAME }}...
+#     shell: "cd {{ repo_folder }} && make publish"
+#     register: cmdln
+#     failed_when: "cmdln.rc == 2"

@@ -24,9 +24,9 @@
     - instance-setup
 
 - name: Import tasks for cleaning up potential existing containers, images and folder
-  include_tasks: 3_cleaning-up.yml
+  include_tasks: 3_docker-cleanup.yml
   tags:
-    - build
+    - docker-cleanup
 
 - name: Import Github repo download tasks
   include_tasks: 4_clone-repo.yml
@@ -49,7 +49,7 @@
     - dockerhub_push
 
 - name: Import Docker deployment tasks for prod environment
-  include_tasks: 5_build_deployment.yml
+  include_tasks: 8_prod_deployment.yml
   tags:
     - prod
 

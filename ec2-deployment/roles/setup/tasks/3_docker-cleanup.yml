@@ -12,9 +12,3 @@
 
 - name: Docker prune all
   shell: docker system prune -a -f
-
-- name: Deleting repo folder if exists
-  become: yes
-  file:
-    path: "{{ repo_folder }}"
-    state: absent

@@ -2,7 +2,6 @@ app/node_modules
 app/data/*
 app/npm-debug.log
 .settings
-ec2-deployment/roles/*
 !ec2-deployment/roles/requirements.yml
 *.retry
 *.pyc
