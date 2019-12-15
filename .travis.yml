@@ -1,16 +1,3 @@
-# Travis to automate the following tasks:
-# Run tests
-# Run docker deploy commands with makefile?
-# Run Ansible script
-
-# Ansible script to automate the following tasks:
-# access ec2 instance
-# install dependencies, docker, conda, etc.
-# git clone repo
-# run tests
-# build images and run containers
-# push images to dockerhub
-
 ---
 sudo: required
 services:
@@ -21,11 +8,10 @@ branches:
     - master
 
 before_install:
-  - source .gitter-env
+  - source .env
   - sudo apt-get update -qq
   - sudo apt install python3-pip -y && alias pip=pip3
   - sudo apt-get install sshpass # sshpass is needed for Travis instance to connect to EC2 instance
-  - echo ${ANSIBLE_VAULT_PASSPHRASE} > ec2-deployment/roles/setup/vars/ansible-vault-pw
 
 install:
   # Install Ansible on Travis instance
@@ -34,12 +20,21 @@ install:
   - sudo pip install ansible-lint
 
 script:
-  # Check docker-compose build runs successfully
-  # - cd docker-deployment/build
-  # - docker-compose build
-  # Ansible deployment
-  - make ansible-all
-  # Equivalent of the following commands
+  # Run tests on Travis instance
+  - ./travis_steps/1_run_pytest/1_create_environment.sh
+  - ./travis_steps/1_run_pytest/2_run_unit_tests_with_pytest.sh
+  - ./travis_steps/1_run_pytest/3_run_frontend_unit_tests_with_npm.sh
+
+  # Ansible deployment on ec2-instance
+  - ./travis_steps/2_build_and_push_docker_images/1_instance_setup.sh
+  - ./travis_steps/2_build_and_push_docker_images/2_build_and_push_docker_images.sh
+  # - ./travis_steps/3_scan_docker_images/1_install_anchore.sh
+  # - ./travis_steps/3_scan_docker_images/2_scan_image.sh
+  - ./travis_steps/4_ec2_prod_deployment/1_pull_images_and_start_services.sh
+
+  # Run make commands directly
+  # - make ansible-all
+  # - make ansible-define-host
   # - make ansible-checksyntax
   # - make ansible-instance-setup
   # - make ansible-deploy-build

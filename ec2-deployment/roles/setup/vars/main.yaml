@@ -1,15 +1,4 @@
 ---
-# eigen_repo_path: "{{ playbook_dir }}/../../eigen"
-# docker_compose_version: "1.24.1"
-# eigen_image: "eigen_bespoke"
-# eigen_image_tag: "latest"
-# eigen_build_type: "dev"
-# compose_file: "docker-compose.yml:docker-compose.ocr.yml"
-# docker_tarball_path: "https://packages.eigen.tech/docker-compose/{{ eigen_build_type | replace('_', '-') }}/docker-compose_{{ eigen_image_tag | replace('_', '-') }}/docker.tar.gz"
-# feature_toggle_define_label_set: "False"
-# feature_toggle_error_details: "False"
-# ocr_strategy: "OcrStrategy.ALWAYS"
-
 # Variables listed here are applicable to "setup" role
 
 ansible_python_interpreter: /usr/bin/python3
@@ -17,10 +6,6 @@ ansible_python_interpreter: /usr/bin/python3
 remote_user: ubuntu
 docker_group: docker
 docker_compose_version: 1.24.1
-
-# image_registry:
-# image_name:
-# image_tag:
 
 repo_folder: /home/ubuntu/docker_deployment
 github_user: gbourniq

@@ -1,12 +1,15 @@
+DEPLOY_DIR=docker-deployment
+ANSIBLE_DIR=ec2-deployment
+SHELL := /bin/bash
+
+# Include env variables
+include ${DEPLOY_DIR}/build/.env
+include .env
 # Common settings
 include Makefile.settings
 
-# Docker container settings
-export APP_HTTP_PORT ?= 4000
-export CLIENT_HTTP_PORT ?= 3000
-export MONGO_HTTP_PORT ?= 27017
-export APP_HTTP_ROOT ?= 
-export CLIENT_HTTP_ROOT ?=
+# Repo variables, eg. full image name: myfullstackapp_mongo:latest
+REPO_NAME_BASE=myfullstackapp
 
 .PHONY: docker-app-version docker-test docker-build docker-clean docker-tag docker-tag-latest docker-login docker-logout docker-publish docker-all
 
@@ -36,7 +39,7 @@ docker-all: clean test build tag-latest publish clean
 
 # Build environments: create images, run containers and acceptance tests
 # Then images must be pushed to a registry 
-docker-build:
+docker-build-images:
 	${INFO} "Building images..."
 	@ docker-compose $(BUILD_ARGS) build app client mongo
 	
@@ -56,8 +59,14 @@ docker-build:
 	${SUCCESS} "App REST endpoint is running at http://$(DOCKER_HOST_IP):$(call get_port_mapping,$(BUILD_ARGS),app,$(APP_HTTP_PORT))$(APP_HTTP_ROOT)"
 	${SUCCESS} "Client REST endpoint is running at http://$(DOCKER_HOST_IP):$(call get_port_mapping,$(BUILD_ARGS),client,$(CLIENT_HTTP_PORT))$(CLIENT_HTTP_ROOT)"
 
+
+docker-build-package:
+	${INFO} "Work in progress..."
+	# cd ${DEPLOY_DIR}/build; python build_deployment_package.py -di --clean
+
+
 # Prod environment: Pull images from registry and run containers
-docker-prod:
+docker-run-prod:
 	${INFO} "Building images..."
 	@ docker-compose $(PROD_ARGS) build app client mongo
 	
@@ -121,13 +130,17 @@ docker-publish:
 # Executes a full workflow
 ansible-all: ansible-checksyntax ansible-instance-setup ansible-deploy-build ansible-instance-cleanup ansible-deploy-prod
 
+ansible-define-host:
+	@ $(call populate_yml,$(ANSIBLE_DIR)/inventory.yml,ansible_host,$(ANSIBLE_HOST))
+	@ $(call populate_yml,$(ANSIBLE_DIR)/inventory.yml,ansible_user,$(ANSIBLE_USER))
+
 ansible-checksyntax:
 	${INFO} "Checking ansible command syntax..."
 	@ ansible-playbook -i ec2-deployment/inventory.yml ec2-deployment/site.yml --syntax-check
 	${SUCCESS} "Syntax check complete..."
 
 ansible-instance-setup:
-	${INFO} "Running ansible playbook for machine setup + build deployment"
+	${INFO} "Running ansible playbook for machine setup"
 	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=system,instance-setup
 	${SUCCESS} "Instance setup complete"
 
@@ -145,28 +158,3 @@ ansible-deploy-prod:
 	${INFO} "Running ansible playbook for build deployment"
 	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=system,prod
 	${SUCCESS} "Deployment complete"
-
-
-# roles:
-# 	${INFO} "Installing Ansible roles from roles/requirements.yml..."
-# 	@ ansible-galaxy install -r ec2-deployment/roles/requirements.yml --force
-# 	${INFO} "Installation complete"
-
-# environment/%:
-# 	@ mkdir -p group_vars/$*
-# 	@ touch group_vars/$*/vars.yml
-# 	@ echo >> inventory
-# 	@ echo '[$*]' >> inventory
-# 	@ echo '$* ansible_connection=local' >> inventory
-# 	${INFO} "Created environment $*"
-
-# generate/%:
-# 	${INFO} "Generating templates for $*..."
-# 	@ ansible-playbook site.yml -e 'Sts.Disabled=true' -e env=$* $(FLAGS) --tags generate
-# 	${INFO} "Generation complete"
-
-# delete/%:
-# 	${INFO} "Deleting environment $*..."
-# 	@ ansible-playbook site.yml -e env=$* -e 'Stack.Delete=true' $(FLAGS)
-# 	${INFO} "Delete complete"
-

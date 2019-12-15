@@ -21,6 +21,6 @@ RUN npm install
 COPY app/ /app/
 
 # Informs Docker that the container listens on 4000 at runtime
-EXPOSE ${HTTP_PORT}
+EXPOSE ${APP_HTTP_PORT}
 
 ENTRYPOINT ["/app/entrypoint.sh"]

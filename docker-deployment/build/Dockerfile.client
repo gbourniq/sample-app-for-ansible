@@ -21,7 +21,7 @@ RUN npm install
 COPY client/ /client/
 
 # Informs Docker that the container listens on 3000 at runtime
-EXPOSE ${HTTP_PORT}
+EXPOSE ${CLIENT_HTTP_PORT}
 
 ENTRYPOINT ["/client/entrypoint.sh"]
 

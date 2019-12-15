@@ -20,6 +20,8 @@ services:
         - backend
     depends_on:
       - mongo
+    env_file:
+      - ../.env
 
   client:
     image: ${DOCKER_REGISTRY}/${ORG_NAME}/${REPO_NAME_BASE}_client:latest
@@ -28,7 +30,7 @@ services:
     environment:
       HTTP_PORT: ${CLIENT_HTTP_PORT}  
     ports:
-      - "${CLIENT_HTTP_PORT}:${CLIENT_HTTP_PORT}"
+      - "${PROXY_HTTP_PORT}:${CLIENT_HTTP_PORT}"
     healthcheck:
         test: curl -f -s -S http://localhost:${CLIENT_HTTP_PORT} || exit 1
         interval: 30s
@@ -37,6 +39,8 @@ services:
     restart: always
     networks:
         - backend
+    env_file:
+      - ../.env
 
   mongo:
     image: ${DOCKER_REGISTRY}/${ORG_NAME}/${REPO_NAME_BASE}_mongo:latest
@@ -55,6 +59,8 @@ services:
         retries: 3
         start_period: 10s
     restart: always
+    env_file:
+      - ../.env
 
 networks:
     backend:

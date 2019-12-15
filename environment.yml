@@ -1,12 +1,17 @@
 name: devops-test
+channels:
+  - defaults
+  - conda-forge
 dependencies:
-  - python=3.7                # PSF
+  - python=3.6.7    #PSF
+  - python-dotenv   # BSD-3
   - pip                       # MIT
   - pip:
-      # - black             # MIT
-      # - isort==4.3.4      # MIT
-      # - pytest==4.0       # MIT
-      # - pytest-cov        # MIT
+      - black             # MIT
+      - isort==4.3.4      # MIT
+      - pytest==4.0       # MIT
+      - pytest-cov        # MIT
       - ansible
       - awscli
       - make
+      
