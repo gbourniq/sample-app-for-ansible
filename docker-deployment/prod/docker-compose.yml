@@ -21,7 +21,7 @@ services:
     depends_on:
       - mongo
     env_file:
-      - ../.env
+      - .env
 
   client:
     image: ${DOCKER_REGISTRY}/${ORG_NAME}/${REPO_NAME_BASE}_client:latest
@@ -40,7 +40,7 @@ services:
     networks:
         - backend
     env_file:
-      - ../.env
+      - .env
 
   mongo:
     image: ${DOCKER_REGISTRY}/${ORG_NAME}/${REPO_NAME_BASE}_mongo:latest
@@ -60,7 +60,7 @@ services:
         start_period: 10s
     restart: always
     env_file:
-      - ../.env
+      - .env
 
 networks:
     backend:

@@ -7,7 +7,7 @@
     - push-registry
 
 - name: Tagging release images with tags latest...
-  shell: cd {{ REPO_LOCAL_PATH }} && make docker-tag-latest
+  shell: cd {{ REPO_LOCAL_PATH }} && make docker-tag/latest
   register: cmdln
   failed_when: "cmdln.rc == 2"
   tags:

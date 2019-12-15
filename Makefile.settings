@@ -13,7 +13,7 @@ PROD_COMPOSE_FILE := docker-deployment/prod/docker-compose.yml
 PROD_ARGS = -p $(DC_PROJECT_NAME) -f $(PROD_COMPOSE_FILE)
 
 # Dockerhub login
-DOCKER_LOGIN_EXPRESSION := docker login -u $(DOCKER_USER) -p $(DOCKER_PASSWORD)
+DOCKER_LOGIN_EXPRESSION := docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
 
 # ECR parameters
 # AWS_ACCOUNT_ID := 684585179542
@@ -82,14 +82,6 @@ get_container_state = $$(echo $(call get_container_id,$(1),$(2)) | xargs -I ID d
 filter_repo_tags = $(if $(findstring docker.io,$(1)),$(subst docker.io/,,$(1))[^[:space:]|\$$]*,$(1)[^[:space:]|\$$]*)
 get_repo_tags = $$(echo $(call get_image_id,$(1),$(2)) | xargs -I ID docker inspect -f '{{range .RepoTags}}{{.}} {{end}}' ID | grep -oh "$(call filter_repo_tags,$(3))" | xargs)
 
-# Extract tag arguments
-ifeq ($(firstword $(MAKECMDGOALS)),$(filter $(firstword $(MAKECMDGOALS)),tag))
-  TAG_ARGS_RAW := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-  ifeq ($(TAG_ARGS_RAW),)
-    $(error You must specify a tag)
-  endif
-  TAG_ARGS += $(foreach tag,$(TAG_ARGS_RAW),$(shell echo $(tag) | sed -e 's/[^a-zA-Z0-9\.\-]/_/g'))
-endif
 
 # Customising value in yml
 # Syntax: $(call populate_yml,<unique-key>,<value>,<file-path>)

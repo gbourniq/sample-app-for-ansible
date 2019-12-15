@@ -8,6 +8,10 @@ export APP_HTTP_PORT:=4000
 export CLIENT_HTTP_PORT:=3000
 export MONGO_HTTP_PORT:=27017
 export REPO_NAME_BASE:=myfullstackapp
+export DOCKER_REGISTRY=docker.io
+export ORG_NAME=gbournique
+export DOCKER_USER=gbournique
+
 
 # Include env variables
 # include .env
@@ -16,8 +20,6 @@ include Makefile.settings
 
 # Repo variables, eg. full image name: myfullstackapp_mongo:latest
 REPO_NAME_BASE=myfullstackapp
-
-.PHONY: docker-app-version docker-test docker-build docker-clean docker-tag docker-tag-latest docker-login docker-logout docker-publish docker-all
 
 # Prints version
 docker-app-version:
@@ -106,16 +108,12 @@ docker-clean%prod:
 	${INFO} "Destroying prod environment..."
 	@ docker-compose $(PROD_ARGS) down -v || true
 
-# Tags with latest
-docker-tag-latest:
-	@ make tag latest
-
 # 'make tag <tag> [<tag>...]' tags development and/or release image with specified tag(s)
-docker-tag:
-	${INFO} "Tagging release images with tags $(TAG_ARGS)..."
-	@ $(foreach tag,$(TAG_ARGS),$(call tag_image,$(BUILD_ARGS),app,$(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_app:$(tag));)
-	@ $(foreach tag,$(TAG_ARGS),$(call tag_image,$(BUILD_ARGS),client,$(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_client:$(tag));)
-	@ $(foreach tag,$(TAG_ARGS),$(call tag_image,$(BUILD_ARGS),mongo,$(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_mongo:$(tag));)
+docker-tag/%:
+	${INFO} "Tagging release images with tags $*..."
+	docker tag $(REPO_NAME_BASE)_app $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_app:$*
+	docker tag $(REPO_NAME_BASE)_client $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_client:$*
+	docker tag $(REPO_NAME_BASE)_mongo $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_mongo:$*
 	${SUCCESS} "Tagging complete"
 
 # Publishes image(s) tagged using make tag commands
@@ -130,8 +128,6 @@ docker-publish:
 %:
 	@:
 
-# ansible related commands
-.PHONY: ansible-all ansible-checksyntax ansible-instance-setup ansible-deploy-build ansible-instance-cleanup ansible-deploy-prod
 
 # Executes a full workflow
 ansible-all: ansible-checksyntax ansible-instance-setup ansible-deploy-build ansible-instance-cleanup ansible-deploy-prod
