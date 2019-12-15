@@ -42,7 +42,7 @@ docker-test:
 	# Run unit tests
 
 # Executes a full workflow
-docker-all: clean test build tag-latest publish clean
+docker-all: docker-clean docker-test docker-build-images docker-tag-latest docker-publish docker-clean
 
 # Build environments: create images, run containers and acceptance tests
 # Then images must be pushed to a registry 

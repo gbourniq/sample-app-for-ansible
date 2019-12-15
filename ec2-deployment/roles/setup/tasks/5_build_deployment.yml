@@ -8,7 +8,7 @@
     - build
 
 - name: Building images and starting services...
-  shell: cd {{ REPO_LOCAL_PATH }} && make docker-build
+  shell: cd {{ REPO_LOCAL_PATH }} && make docker-build-images
   register: cmdln
   failed_when: "cmdln.rc == 2"
   tags:
