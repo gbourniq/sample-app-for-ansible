@@ -2,15 +2,14 @@ DEPLOY_DIR=docker-deployment
 ANSIBLE_DIR=ec2-deployment
 SHELL := /bin/bash
 
-APP_VERSION:=v1 # overrides default APP_VERSION defined in Makefile.settings
-PROXY_HTTP_PORT:=80
-APP_HTTP_PORT:=4000
-CLIENT_HTTP_PORT:=3000
-MONGO_HTTP_PORT:=27017
-REPO_NAME_BASE:=myfullstackapp
+export APP_VERSION:=v1 # overrides default APP_VERSION defined in Makefile.settings
+export PROXY_HTTP_PORT:=80
+export APP_HTTP_PORT:=4000
+export CLIENT_HTTP_PORT:=3000
+export MONGO_HTTP_PORT:=27017
+export REPO_NAME_BASE:=myfullstackapp
 
 # Include env variables
-# include ${DEPLOY_DIR}/build/.env
 # include .env
 # Common settings
 include Makefile.settings
