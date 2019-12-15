@@ -6,7 +6,5 @@ app/npm-debug.log
 *.retry
 *.pyc
 docker-deployment/build/build_deployment_package.py
-docker-deployment/build/.env
-docker-deployment/prod/.env
-.gitter-env
+.env
 ec2-deployment/roles/setup/vars/ansible-vault-pw

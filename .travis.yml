@@ -8,7 +8,7 @@ branches:
     - master
 
 before_install:
-  - source .env
+  - source ansible.env
   - sudo apt-get update -qq
   - sudo apt install python3-pip -y && alias pip=pip3
   - sudo apt-get install sshpass # sshpass is needed for Travis instance to connect to EC2 instance
