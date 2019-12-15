@@ -144,7 +144,7 @@ ansible-instance-setup:
 	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=system,instance-setup
 	${SUCCESS} "Instance setup complete"
 
-ansible-clone-repo:
+ansible-clone-repo: ansible-instance-setup
 	${INFO} "Running ansible playbook to clone github repo"
 	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=clone-repo
 	${SUCCESS} "Cloning complete"
