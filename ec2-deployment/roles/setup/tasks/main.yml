@@ -46,7 +46,7 @@
 - name: Import tasks to push images to Dockerhub
   include_tasks: 7_publish_registry.yml
   tags:
-    - dockerhub_push
+    - push-registry
 
 - name: Import Docker deployment tasks for prod environment
   include_tasks: 8_prod_deployment.yml

@@ -5,8 +5,12 @@
   shell: if [ $(curl 0.0.0.0:3000 | wc -w) -gt 0 ]; then echo "front-end running"; else exit 2; fi
   register: cmdln
   failed_when: "cmdln.rc == 2"
+  tags:
+    - build
 
 - name: Curl app back-end
   shell: if [ $(curl 0.0.0.0:4000 | wc -w) -gt 0 ]; then echo "back-end running"; else exit 2; fi
   register: cmdln
   failed_when: "cmdln.rc == 2"
+  tags:
+    - build

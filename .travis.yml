@@ -38,10 +38,13 @@ script:
   # - cd docker-deployment/build
   # - docker-compose build
   # Ansible deployment
-  - make ansible-checksyntax
-  - make ansible-instance-setup
-  - make ansible-deploy-build
-  - make ansible-deploy-prod
+  - make ansible-all
+  # Equivalent of the following commands
+  # - make ansible-checksyntax
+  # - make ansible-instance-setup
+  # - make ansible-deploy-build
+  # - make ansible-instance-cleanup
+  # - make ansible-deploy-prod
 
 after_success:
   - echo "Successfully deployed app to AWS EC2 instance with Ansible and pushed images to Dockerhub."

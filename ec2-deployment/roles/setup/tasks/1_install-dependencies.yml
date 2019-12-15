@@ -5,6 +5,8 @@
     name: ['python3', 'python3-pip']
     update_cache: true
     state: present
+  tags:
+    - instance-setup
 
 - name: Add python alias
   lineinfile:
@@ -13,9 +15,13 @@
     state: present
     insertafter: EOF
     create: True
+  tags:
+    - instance-setup
 
 - name: Install pip packages
   pip:
     name:
       - docker
       - docker-compose
+  tags:
+    - instance-setup

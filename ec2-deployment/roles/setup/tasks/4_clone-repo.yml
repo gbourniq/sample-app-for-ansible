@@ -5,12 +5,16 @@
   file:
     path: "{{ repo_folder }}"
     state: absent
-    
+  tags:
+    - build
+
 - name: Create a docker_deployment directory if it does not exist
   file:
     path: "{{ repo_folder }}"
     state: directory
     mode: '0755'
+  tags:
+    - build
 
 - name: Recursively change ownership of a directory
   file:
@@ -19,6 +23,8 @@
     recurse: yes
     owner: ubuntu
     group: ubuntu
+  tags:
+    - build
 
 - name: Clone github repo
   become: no
@@ -27,3 +33,5 @@
     version: master
     dest: "{{ repo_folder }}"
     update: yes
+  tags:
+    - build
