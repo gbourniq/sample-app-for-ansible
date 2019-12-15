@@ -2,6 +2,13 @@ DEPLOY_DIR=docker-deployment
 ANSIBLE_DIR=ec2-deployment
 SHELL := /bin/bash
 
+APP_VERSION:=v1 # overrides default APP_VERSION defined in Makefile.settings
+PROXY_HTTP_PORT:=80
+APP_HTTP_PORT:=4000
+CLIENT_HTTP_PORT:=3000
+MONGO_HTTP_PORT:=27017
+REPO_NAME_BASE:=myfullstackapp
+
 # Include env variables
 include ${DEPLOY_DIR}/build/.env
 include .env
@@ -155,7 +162,7 @@ ansible-deploy-build:
 	${SUCCESS} "Deployment complete"
 
 ansible-instance-cleanup:
-	${INFO} "Delete repo folder, remove all running containers, and run docker system prune"
+	${INFO} "Remove running containers and all images"
 	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=docker-cleanup
 	${SUCCESS} "Cleanup complete"
 

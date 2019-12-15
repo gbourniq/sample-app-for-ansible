@@ -2,7 +2,7 @@
 # This playbook contains all actions that will be run on "local" host.
 
 # - debug:
-#   msg: "docker info {{ github_pwd }}"
+#   msg: "docker info {{ GITHUB_USER }}"
 # - name: Check docker
 #   command: echo $(docker info)
 

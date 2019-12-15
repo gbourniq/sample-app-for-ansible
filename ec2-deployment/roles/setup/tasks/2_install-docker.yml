@@ -58,7 +58,7 @@
 # sudo groupadd docker
 - name: Create "docker" group
   group:
-    name: "{{ docker_group }}"
+    name: "{{ DOCKER_GROUP }}"
     state: present
   tags:
     - instance-setup
@@ -66,8 +66,8 @@
 # sudo usermod -aG docker ubuntu
 - name: Add remote "ubuntu" user to "docker" group
   user:
-    name: "{{ remote_user }}"
-    group: "{{ docker_group }}"
+    name: "{{ ANSIBLE_USER }}"
+    group: "{{ DOCKER_GROUP }}"
     append: yes
   tags:
     - instance-setup
@@ -76,7 +76,7 @@
 # chmod +x /usr/local/bin/docker-compose
 - name: Fetch docker-compose
   get_url:
-    url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64"
+    url: "https://github.com/docker/compose/releases/download/{{ DOCKER_COMPOSE_VERSION }}/docker-compose-Linux-x86_64"
     dest: /usr/local/bin/docker-compose
     mode: '0755'
   tags:

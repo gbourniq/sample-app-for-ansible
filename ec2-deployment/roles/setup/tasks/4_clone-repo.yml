@@ -3,14 +3,14 @@
 - name: Deleting repo folder if exists
   become: yes
   file:
-    path: "{{ repo_folder }}"
+    path: "{{ REPO_LOCAL_PATH }}"
     state: absent
   tags:
     - clone-repo
 
 - name: Create a docker_deployment directory if it does not exist
   file:
-    path: "{{ repo_folder }}"
+    path: "{{ REPO_LOCAL_PATH }}"
     state: directory
     mode: '0755'
   tags:
@@ -18,7 +18,7 @@
 
 - name: Recursively change ownership of a directory
   file:
-    path: "{{ repo_folder }}"
+    path: "{{ REPO_LOCAL_PATH }}"
     state: directory
     recurse: yes
     owner: ubuntu
@@ -29,9 +29,9 @@
 - name: Clone github repo
   become: no
   git:
-    repo: https://{{ github_user }}:{{ github_pwd }}@github.com/{{ github_user }}/{{ repo_name }}.git
+    repo: https://{{ GITHUB_USER }}:{{ GITHUB_PASSWORD }}@github.com/{{ GITHUB_USER }}/{{ GITHUB_REPO_NAME }}.git
     version: master
-    dest: "{{ repo_folder }}"
+    dest: "{{ REPO_LOCAL_PATH }}"
     update: yes
   tags:
     - clone-repo

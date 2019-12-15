@@ -1,21 +1,21 @@
 # This playbook contains docker actions that will be run on "remote" host.
 
 - name: Destroying build environment and Removing dangling images...
-  shell: cd {{ repo_folder }} && make docker-clean
+  shell: cd {{ REPO_LOCAL_PATH }} && make docker-clean
   register: cmdln
   failed_when: "cmdln.rc == 2"
   tags:
     - prod
 
 - name: Logging in to Docker registry...
-  shell: cd {{ repo_folder }} && make docker-login
+  shell: cd {{ REPO_LOCAL_PATH }} && make docker-login
   register: cmdln
   failed_when: "cmdln.rc == 2"
   tags:
     - prod
 
 - name: Pulling release images from Docker registry and starting services...
-  shell: cd {{ repo_folder }} && make docker-run-prod
+  shell: cd {{ REPO_LOCAL_PATH }} && make docker-run-prod
   register: cmdln
   failed_when: "cmdln.rc == 2"
   tags:
