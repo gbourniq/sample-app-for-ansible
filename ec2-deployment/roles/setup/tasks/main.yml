@@ -31,7 +31,7 @@
 - name: Import Github repo download tasks
   include_tasks: 4_clone-repo.yml
   tags:
-    - build
+    - clone-repo
 
 - name: Import Docker deployment tasks for build environment
   include_tasks: 5_build_deployment.yml
