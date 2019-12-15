@@ -27,7 +27,8 @@ script:
 
   # Ansible deployment on ec2-instance
   - ./travis_steps/2_build_and_push_docker_images/1_instance_setup.sh
-  - ./travis_steps/2_build_and_push_docker_images/2_build_and_push_docker_images.sh
+  - ./travis_steps/2_build_and_push_docker_images/2_clone_repo.sh
+  - ./travis_steps/2_build_and_push_docker_images/3_build_and_push_docker_images.sh
   # - ./travis_steps/3_scan_docker_images/1_install_anchore.sh
   # - ./travis_steps/3_scan_docker_images/2_scan_image.sh
   - ./travis_steps/4_ec2_prod_deployment/1_pull_images_and_start_services.sh

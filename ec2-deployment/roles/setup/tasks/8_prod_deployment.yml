@@ -15,7 +15,7 @@
     - prod
 
 - name: Pulling release images from Docker registry and starting services...
-  shell: cd {{ repo_folder }} && make docker-prod
+  shell: cd {{ repo_folder }} && make docker-run-prod
   register: cmdln
   failed_when: "cmdln.rc == 2"
   tags:

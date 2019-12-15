@@ -144,9 +144,14 @@ ansible-instance-setup:
 	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=system,instance-setup
 	${SUCCESS} "Instance setup complete"
 
+ansible-clone-repo:
+	${INFO} "Running ansible playbook to clone github repo"
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=clone-repo
+	${SUCCESS} "Cloning complete"
+
 ansible-deploy-build:
 	${INFO} "Running ansible playbook for build deployment"
-	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=system,docker-cleanup,clone-repo,build,push-registry
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=system,docker-cleanup,build,push-registry
 	${SUCCESS} "Deployment complete"
 
 ansible-instance-cleanup:
