@@ -1,8 +1,6 @@
 ---
 # Variables listed here are applicable to "setup" role
 
-ansible_python_interpreter: /usr/bin/python3
-
 ANSIBLE_USER: ubuntu
 DOCKER_GROUP: docker
 DOCKER_COMPOSE_VERSION: 1.24.1

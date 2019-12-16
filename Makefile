@@ -14,7 +14,8 @@ export DOCKER_USER=gbournique
 
 
 # Include env variables
-# include .env
+include .ansible-env
+include ec2-deployment/.current-instance-id-env
 # Common settings
 include Makefile.settings
 
@@ -111,9 +112,9 @@ docker-clean%prod:
 # 'make tag <tag> [<tag>...]' tags development and/or release image with specified tag(s)
 docker-tag/%:
 	${INFO} "Tagging release images with tags $*..."
-	docker tag $(REPO_NAME_BASE)_app $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_app:$*
-	docker tag $(REPO_NAME_BASE)_client $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_client:$*
-	docker tag $(REPO_NAME_BASE)_mongo $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_mongo:$*
+	docker tag $(REPO_NAME_BASE)_app $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_app:$* | 2>/dev/null
+	docker tag $(REPO_NAME_BASE)_client $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_client:$* | 2>/dev/null
+	docker tag $(REPO_NAME_BASE)_mongo $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_mongo:$* | 2>/dev/null
 	${SUCCESS} "Tagging complete"
 
 # Publishes image(s) tagged using make tag commands
@@ -131,6 +132,16 @@ docker-publish:
 
 # Executes a full workflow
 ansible-all: ansible-checksyntax ansible-instance-setup ansible-deploy-build ansible-instance-cleanup ansible-deploy-prod
+
+ansible-instance-launch:
+	${INFO} "Running ansible playbook to launch a new EC2 instance from custom Ubuntu AMI"
+	@ ansible-playbook --vault-id user@~/.ssh/ansible-vault-pw ec2-deployment/site.yml -vv --tags=instance-launch
+	${SUCCESS} "Instance creation complete"
+
+# ansible-instance-firstrun:
+# 	${INFO} "Running script to install docker and docker-compose..."
+# 	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=instance-first-run
+# 	${SUCCESS} "Installation complete..."
 
 ansible-define-host:
 	@ $(call populate_yml,$(ANSIBLE_DIR)/inventory.yml,ansible_host,$(ANSIBLE_HOST))
@@ -153,7 +164,7 @@ ansible-clone-repo: ansible-instance-cleanup
 
 ansible-deploy-build:
 	${INFO} "Running ansible playbook for build deployment"
-	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=system,build,push-registry
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vvv --tags=system,build,push-registry
 	${SUCCESS} "Deployment complete"
 
 ansible-instance-cleanup:

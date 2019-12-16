@@ -8,7 +8,7 @@
     - prod
 
 - name: Logging in to Docker registry...
-  shell: cd {{ REPO_LOCAL_PATH }} && make docker-login
+  shell: cd {{ REPO_LOCAL_PATH }} && make docker-login/{{ DOCKER_PASSWORD }}
   register: cmdln
   failed_when: "cmdln.rc == 2"
   tags:

@@ -13,6 +13,57 @@
 # https://comtechies.com/password-authentication-aws-ec2.html
 # brew install http://git.io/sshpass.rb
 
+- name: create an EC2 instance with SSD volume type
+  hosts: localhost
+  gather_facts: False
+  vars:
+    aws_key_path: "my_aws_key"
+    aws_access_key: !vault |
+                    $ANSIBLE_VAULT;1.2;AES256;user
+                    63343133373937613137643934633362393263626533303936663538333363343262613532346537
+                    3762643536366233626432363037326131383839663036360a653739333836313665383339396138
+                    34643763646635316139326362376666663561326166623266383964376464393865303933356134
+                    3162336665383237380a353266313164643033626463373036663662613865626566316464396133
+                    36333065336262383131333061623036343332656435666661396539313432366135
+    aws_secret_key: !vault |
+                    $ANSIBLE_VAULT;1.2;AES256;user
+                    61393562306364353138623331383639303765613230623464366562663362373366376635336332
+                    6431323332356661356233326662653566383034383132340a326539633131373038626235323634
+                    61303833323834663530343031376165656331353666383332346436376465386635316637336436
+                    3166363837623462360a313234376263366136323333303633323533623764616536386663356438
+                    37303662623764356334623938626165383661653263623961373330393066663831383538623764
+                    6261363433333838653731376132633933646563343931336130
+    image: ami-0ce7162177d01f9c8
+    instance_type: t2.micro
+    security_group: sg-0daf1efb329a413a3
+    region: eu-west-3
+  tasks:
+    - name: create an EC2 instance with SSD volume type
+      ec2:
+        key_name: "{{ aws_key_path }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        image: "{{ image }}"
+        wait: yes
+        instance_type: "{{ instance_type }}"
+        group_id: "{{ security_group }}"
+        region: "{{ region }}"
+        count_tag:
+          Name: ubuntuserver
+        exact_count: 1
+        volumes:
+          - device_name: /dev/xvda
+            volume_type: gp2  #insert the volume code here
+            volume_size: 8  #size is in GB
+      register: ec2
+      tags:
+        - instance-launch
+    - name: Store instance details
+      shell: "echo export ANSIBLE_HOST={{ ec2.instances[0].dns_name }} > .current-instance-id-env"
+      register: cmdln
+      failed_when: "cmdln.rc == 2"
+      tags:
+        - instance-launch
 
 - name: Configurations to "remote_server" host
   gather_facts: true

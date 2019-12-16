@@ -2,7 +2,7 @@
 # automate acceptance tests once all services are running 
 
 - name: Curl app front-end
-  shell: if [ $(curl 0.0.0.0:3000 | wc -w) -gt 0 ]; then echo "front-end running"; else exit 2; fi
+  shell: if [ $(curl 0.0.0.0:80 | wc -w) -gt 0 ]; then echo "front-end running"; else exit 2; fi
   register: cmdln
   failed_when: "cmdln.rc == 2"
   tags:

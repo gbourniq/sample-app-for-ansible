@@ -2,7 +2,7 @@
 
 set -e  # exit with error status on first failure
 
-make docker-login
+make docker-login/${DOCKER_PASSWORD}
 
 echo "Install Anchore for security scans..."
 docker pull docker.io/anchore/anchore-engine:latest
