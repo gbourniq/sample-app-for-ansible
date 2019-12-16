@@ -112,9 +112,8 @@ docker-clean%prod:
 # 'make tag <tag> [<tag>...]' tags development and/or release image with specified tag(s)
 docker-tag/%:
 	${INFO} "Tagging release images with tags $*..."
-	docker tag $(REPO_NAME_BASE)_app $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_app:$* | 2>/dev/null
-	docker tag $(REPO_NAME_BASE)_client $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_client:$* | 2>/dev/null
-	docker tag $(REPO_NAME_BASE)_mongo $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_mongo:$* | 2>/dev/null
+	docker tag $(REPO_NAME_BASE)_app $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_app:$*
+	docker tag $(REPO_NAME_BASE)_client $(DOCKER_REGISTRY)/$(ORG_NAME)/$(REPO_NAME_BASE)_client:$*
 	${SUCCESS} "Tagging complete"
 
 # Publishes image(s) tagged using make tag commands
