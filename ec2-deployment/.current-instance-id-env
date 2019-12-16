@@ -1,1 +1,1 @@
-export ANSIBLE_HOST=ec2-35-180-133-216.eu-west-3.compute.amazonaws.com
+export ANSIBLE_HOST=ec2-15-188-79-147.eu-west-3.compute.amazonaws.com

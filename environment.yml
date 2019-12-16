@@ -7,10 +7,10 @@ dependencies:
   - python-dotenv   # BSD-3
   - pip                       # MIT
   - pip:
-      - black             # MIT
-      - isort==4.3.4      # MIT
-      - pytest==4.0       # MIT
-      - pytest-cov        # MIT
+      # - black             # MIT
+      # - isort==4.3.4      # MIT
+      # - pytest==4.0       # MIT
+      # - pytest-cov        # MIT
       - ansible
       - awscli
       - make
