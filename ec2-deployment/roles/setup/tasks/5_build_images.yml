@@ -5,11 +5,11 @@
   register: cmdln
   failed_when: "cmdln.rc == 2"
   tags:
-    - build
+    - build-images
 
-- name: Building images and starting services...
+- name: Building images...
   shell: cd {{ REPO_LOCAL_PATH }} && make docker-build-images
   register: cmdln
   failed_when: "cmdln.rc == 2"
   tags:
-    - build
+    - build-images

@@ -26,12 +26,15 @@ script:
   - ./travis_steps/1_run_pytest/3_run_frontend_unit_tests_with_npm.sh
 
   # Ansible deployment on ec2-instance
-  - ./travis_steps/2_build_and_push_docker_images/1_instance_setup.sh
-  - ./travis_steps/2_build_and_push_docker_images/2_clone_repo.sh
-  - ./travis_steps/2_build_and_push_docker_images/3_build_and_push_docker_images.sh
+  - ./travis_steps/2_build_deployment/1_instance_setup.sh
+  - ./travis_steps/2_build_deployment/2_clone_repo.sh
+  - ./travis_steps/2_build_deployment/3_build_images.sh
+  - ./travis_steps/2_build_deployment/4_start_services.sh
+  - ./travis_steps/2_build_deployment/5_tag_images.sh
+  - ./travis_steps/2_build_deployment/6_publish_images.sh
   # - ./travis_steps/3_scan_docker_images/1_install_anchore.sh
   # - ./travis_steps/3_scan_docker_images/2_scan_image.sh
-  - ./travis_steps/4_ec2_prod_deployment/1_pull_images_and_start_services.sh
+  - ./travis_steps/4_prod_deployment/1_pull_images_and_start_services.sh
 
   # Run make commands directly
   # - make ansible-all

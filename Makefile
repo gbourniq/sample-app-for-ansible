@@ -51,7 +51,9 @@ docker-all: docker-clean docker-test docker-build-images docker-tag-latest docke
 docker-build-images:
 	${INFO} "Building images..."
 	@ docker-compose $(BUILD_ARGS) build app client mongo
-	
+	${SUCCESS} "Images build complete"
+
+docker-start-services:
 	${INFO} "Starting mongo database..."
 	@ docker-compose $(BUILD_ARGS) up -d mongo
 	@ $(call check_service_health,$(BUILD_ARGS),mongo)
@@ -156,10 +158,25 @@ ansible-clone-repo: ansible-instance-cleanup
 	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=clone-repo
 	${SUCCESS} "Cloning complete"
 
-ansible-deploy-build:
-	${INFO} "Running ansible playbook for build deployment"
-	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=system,build,push-registry
-	${SUCCESS} "Deployment complete"
+ansible-build-images:
+	${INFO} "Running ansible playbook to build images"
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=build-images
+	${SUCCESS} "Build images complete"
+
+ansible-start-services:
+	${INFO} "Running ansible playbook to start services"
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=start-services
+	${SUCCESS} "Start services complete"
+
+ansible-tag-images:
+	${INFO} "Running ansible playbook to tag images"
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=tag-images
+	${SUCCESS} "Tag images complete"
+
+ansible-publish-images:
+	${INFO} "Running ansible playbook to publish images"
+	@ ansible-playbook -i ec2-deployment/inventory.yml --vault-id ec2-deployment/roles/setup/vars/ansible-vault-pw ec2-deployment/site.yml -vv --tags=publish-images
+	${SUCCESS} "Publish images complete"
 
 ansible-instance-cleanup:
 	${INFO} "Remove running containers and all images"

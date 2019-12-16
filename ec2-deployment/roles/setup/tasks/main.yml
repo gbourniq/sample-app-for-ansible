@@ -14,42 +14,52 @@
     - system
 
 - name: Import dependencies installation tasks
-  include_tasks: 1_install-dependencies.yml
+  include_tasks: 1_install_dependencies.yml
   tags:
     - instance-setup
 
 - name: Import Docker installation tasks
-  include_tasks: 2_install-docker.yml
+  include_tasks: 2_install_docker.yml
   tags:
     - instance-setup
 
 - name: Import tasks for cleaning up potential existing containers, images and folder
-  include_tasks: 3_docker-cleanup.yml
+  include_tasks: 3_docker_cleanup.yml
   tags:
     - docker-cleanup
 
 - name: Import Github repo download tasks
-  include_tasks: 4_clone-repo.yml
+  include_tasks: 4_clone_repo.yml
   tags:
     - clone-repo
 
-- name: Import Docker deployment tasks for build environment
-  include_tasks: 5_build_deployment.yml
+- name: Import Docker deployment tasks to build images
+  include_tasks: 5_build_images.yml
   tags:
-    - build
+    - build-images
+
+- name: Import Docker deployment tasks to start services
+  include_tasks: 6_start_services
+  tags:
+    - start-services
 
 - name: Import tasks to test web app is running
-  include_tasks: 6_acceptance_tests.yml
+  include_tasks: 7_acceptance_tests.yml
   tags:
-    - build
+    - acceptance-tests
 
-- name: Import tasks to push images to Dockerhub
-  include_tasks: 7_publish_registry.yml
+- name: Import tasks to tag images
+  include_tasks: 8_tag_images.yml
   tags:
-    - push-registry
+    - tag-images
 
-- name: Import Docker deployment tasks for prod environment
-  include_tasks: 8_prod_deployment.yml
+- name: Import tasks to publish images to registry
+  include_tasks: 9_publish_images.yml
+  tags:
+    - publish-images
+
+- name: Import Docker deployment tasks to deploy prod environment
+  include_tasks: 10_prod_deployment.yml
   tags:
     - prod
 

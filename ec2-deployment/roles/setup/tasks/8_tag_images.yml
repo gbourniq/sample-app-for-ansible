@@ -1,0 +1,8 @@
+# This playbook contains docker actions that will be run on "remote" host.
+
+- name: Tagging release images with tags latest...
+  shell: cd {{ REPO_LOCAL_PATH }} && make docker-tag/latest
+  register: cmdln
+  failed_when: "cmdln.rc == 2"
+  tags:
+    - tag-images
