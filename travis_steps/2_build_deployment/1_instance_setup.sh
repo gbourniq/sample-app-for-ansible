@@ -13,8 +13,8 @@ fi
 # Checking ansible command syntax...
 make ansible-checksyntax
 
-# Populate inventory file with ec2 public IP address
-make ansible-define-host
+# Populate inventory file with ec2 public IP address. commented to avoid fail in travis CI
+# make ansible-define-host
 
 # Running ansible playbook for machine setup
 make ansible-instance-setup

@@ -46,6 +46,6 @@ script:
   # - make ansible-deploy-prod
 
 after_success:
-  - echo "Successfully deployed production environment to EC2 instance with Ansible via Travis CLI."
+  - echo "Successfully deployed production environment to EC2 instance with Ansible via Travis CI."
 
 
