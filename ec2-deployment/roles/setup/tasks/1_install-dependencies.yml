@@ -8,6 +8,14 @@
   tags:
     - instance-setup
 
+- name: Install make
+  apt:
+    name: ['make']
+    update_cache: true
+    state: present
+  tags:
+    - instance-setup
+
 - name: Add python alias
   lineinfile:
     dest: /home/ubuntu/.bash_aliases
