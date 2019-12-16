@@ -1,7 +1,8 @@
 - use ansible to deploy instance and get back public ip 
 - use ansible to kill instance and run full workflow
 
-
+reminders:
+- if used with travis, need to uncommand encrypted ec2 instance password in inventory and command ssh key file path
 
 !!! for ansible to support instance creation in eu-west-3, need to replace
 /Users/guillaume.bournique/.local/lib/python3.6/site-packages/boto/endpoints.json

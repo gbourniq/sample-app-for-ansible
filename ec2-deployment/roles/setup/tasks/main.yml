@@ -39,7 +39,7 @@
     - build-images
 
 - name: Import Docker deployment tasks to start services
-  include_tasks: 6_start_services
+  include_tasks: 6_start_services.yml
   tags:
     - start-services
 

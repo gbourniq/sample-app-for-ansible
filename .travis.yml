@@ -46,6 +46,6 @@ script:
   # - make ansible-deploy-prod
 
 after_success:
-  - echo "Successfully deployed app to AWS EC2 instance with Ansible and pushed images to Dockerhub."
+  - echo "Successfully deployed production environment to EC2 instance with Ansible via Travis CLI."
 
 
